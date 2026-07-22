@@ -53,14 +53,14 @@ modelo_dias = RandomForestRegressor(n_estimators=200, random_state=42)
 modelo_dias.fit(X_train, y_train)
 
 y_pred = modelo_dias.predict(X_test)
-print("MAE (dias):", mean_absolute_error(y_test, y_pred))
+print("Tempo médio de Retirada do material. (dias):", round(mean_absolute_error(y_test, y_pred), 3))
 
 
 ultima_linha = df_model.sort_values("DATAREQUISICAO").iloc[[-1]].copy()
 
 linha_material = dataset_est[(dataset_est["COD_MATERIAL"] == codigo_material)]
 qtd_estoque = linha_material["QUANTIDADE"].values[0]
-qtd_media = df_model["QUANTIDADE"].median()
+qtd_media = df_model["QUANTIDADE"].mean()
 
 data_atual = ultima_linha["DATAREQUISICAO"].values[0]
 nr_desde_anterior_atual = ultima_linha["NR_DESDE_ANTERIOR"].values[0]
@@ -102,7 +102,7 @@ while True:
     data_atual = proxima_data
 
 print(f"\nSaídas previstas do material {codigo_material}:")
-print(f"\nA quantidade média de de saída é de {qtd_media}")
+print(f"\nA quantidade média de de saída é de {round(qtd_media, 3)}")
 print("\nAs próximas datas de retirada serão (será):")
 for data in datas_previstas:
     print(data.strftime("%d/%m/%Y"))
